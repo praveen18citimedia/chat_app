@@ -8,7 +8,8 @@ const server=app.listen(port,()=>{
     console.log(`app is runnong at ${port}`)
 })
 
-app.use(express.static(path.join(__dirname,'public')))
+// app.use(express.static(path.join(__dirname,'public')))
+app.use(express.static(path.resolve('./public')))
 let socketsConnected=new Set()
 const io = new Server(server);
 io.on('connection',onConnection)
@@ -29,3 +30,6 @@ io.emit('clints-total',socketsConnected.size)
         socket.broadcast.emit('feedback', data)
       })
 }
+app.get('/',(req,res)=>{
+    res.sendFile("/public/index.html")
+})
